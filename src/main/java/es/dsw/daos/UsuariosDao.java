@@ -52,7 +52,6 @@ public class UsuariosDao {
 						UsuarioRol objUsuarioRol = new UsuarioRol();
 						objUsuarioRol.setIdRol(iterator.next().getIdRol());
 						
-						
 						objTablaRol = objRolDao.getById(objUsuarioRol.getIdRol());
 						Iterator<Rol> iter = objTablaRol.iterator();
 						

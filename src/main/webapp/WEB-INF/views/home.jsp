@@ -5,12 +5,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>BioFruit</title>
+    <link href="./bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="./js/jquery-3.6.1.min.js"></script>
+    <script src="./bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> 
+    <script src="./js/home.js"></script>
 </head>
 <body>
-<h1>EStás en home</h1>
+<h1>Estás en home</h1>
 
-<table>
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>id</th>
@@ -21,6 +25,7 @@
 			<th>mail</th>
 			<th>nif</th>
 			<th>rol</th>
+			<th>password</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -34,6 +39,8 @@
 				<td>${item.getMail() }</td>
 				<td>${item.getNif() }</td>
 				<td>${item.getRol() }</td>
+				<td>${item.getPassword() }</td>
+			</tr>
 		</c:forEach>
 	</tbody>	
 </table>

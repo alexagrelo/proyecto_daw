@@ -26,7 +26,8 @@ public class RolesDao {
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM roles WHERE id = " + idRol);
+				String sql = "SELECT * FROM roles WHERE id = " + idRol;
+				ResultSet Result = objConnection.executeSelect(sql);
 				while(Result.next()) {
 					Rol objRol = new Rol();
 					objRol.setId(Result.getInt("ID"));

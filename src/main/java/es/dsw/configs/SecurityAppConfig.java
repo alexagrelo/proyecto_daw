@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import es.dsw.daos.UsuariosDao;
+import es.dsw.models.Usuario;
+
 
 
 @Configuration
@@ -28,7 +31,7 @@ public class SecurityAppConfig {
     	//se recuerda al desarrollador, que esta forma de crear usuarios no garantiza el cifrado de contraseñas. 
     	//Aquí se podría iterar cargando los usuarios que se obtengan desde base de datos.
 		
-		@SuppressWarnings("deprecation")
+	/*	@SuppressWarnings("deprecation")
 		UserDetails user1 = User.withDefaultPasswordEncoder()
 		    .username("pepito") //Nombre de usuario
             .password("1234")   //Password
@@ -40,81 +43,63 @@ public class SecurityAppConfig {
 		    .username("pepita")
             .password("5678")
             .roles("usuario")
-            .build();
+            .build();*/
 				
-		/*UsuariosDao Usuario = new UsuariosDao();
-		ArrayList<Usuario> objListaUsuario = Usuario.getAll();	
-		
-		
-		
-		
-
-		
-        //Se crea un objeto InMemoryUserDetailsManager que nos permitirá cargar los usuarios en memoria de aplicación.
-        InMemoryUserDetailsManager InMemory = new InMemoryUserDetailsManager();//new InMemoryUserDetailsManager(user);
-        
-
-		for(Usuario usuario : objListaUsuario) {
-			StringBuilder roles = new StringBuilder("");
-			for(String eachstring: usuario.getRol()) {
-				roles.append(eachstring).append(",");
-			}
-			
-									
-			@SuppressWarnings("deprecation")
-			UserDetails user = User.withDefaultPasswordEncoder()
-			.username(usuario.getUsername_usf())
-			.password(usuario.getPassword_usf())
-			.roles(roles.toString().split(","))
-			.build();
-
-
-			InMemory.createUser(user);
-		}*/
-		
+		UsuariosDao Usuarios = new UsuariosDao();
+		ArrayList<Usuario> objListaUsuario = Usuarios.getAll();
+		String roles = "";
         InMemoryUserDetailsManager InMemory = new InMemoryUserDetailsManager();//new InMemoryUserDetailsManager(user);
 
-       
+       for(Usuario usuario: objListaUsuario) {
+    	    roles.concat(usuario.getRol().toString());
+    	    
+    	    @SuppressWarnings("deprecation")
+    	    UserDetails user = User.withDefaultPasswordEncoder()
+    	    .username(usuario.getNombre())
+    	    .password(usuario.getPassword())
+    	    .roles(roles)
+    	    .build();
+    	    
+    	    InMemory.createUser(user);
+       }
 		
 
 		//Se cargan los usuarios.
-       InMemory.createUser(user1);
-       InMemory.createUser(user2);
+		//InMemory.createUser(user1);
+    	//InMemory.createUser(user2);
        
         //Se devuelve a el modulo de Spring Security el descriptor del objeto InMemoryUserDetailsManager para que surta efecto las modificaciones.
         return InMemory;
     }
 	
 	
-	 @Bean
-	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	        
-	    	http.authorizeRequests()
-	    	 		.regexMatchers("/styles/*.*") 
-	    	 			.permitAll()
-	    	 		.regexMatchers("/img/*.*")
-	    	 			.permitAll()
-	    	 		.regexMatchers("/js/*.*")
-	    	 			.permitAll() 
-	    	 		.regexMatchers("/bootstrap/*.*")
-	    	 			.permitAll() 
-	        	 	.regexMatchers("/ayuda")
-	    	 			.permitAll()
-	    	 		.anyRequest()
-	    	 			.authenticated() //Configuración para el proceso de autenticación de usuario
-	    	 				.and()
-	    	 					.formLogin() //Configuración para logeo basado en formulario de login.
-	    	 						//.loginPage("/login") //Se indica la controladora que devuelve la vista de logeo. Debe estar implementada en una controladora.
-	    	 						.loginProcessingUrl("/loginprocess") //Se indica la controladora que procesará los datos del logeo. Este mapeo no es necesario implementarlo en ninguna controladora.
-	    	 						.permitAll() //Se indica que la controladora /loggin estará accesibles a todos los clientes (para que todo cliente tenga la oportunidad de logearse).
-	    	 				.and()
-	    	 					.logout()
-	    	 					//.logoutSuccessUrl("/login?logout")
-	    	 					.permitAll(); //Se habilita el logout. No es necesario implementar este mapeo en ninguna controladora, al invocar /logout, spring security anula la autenticación y además reinicia las variables de sesión.
-	    	
-	    	//Se devuelve el beans para que spring lo procese.
-	        return http.build();
-	    }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+			.regexMatchers("/styles/*.*") 
+				.permitAll()
+			.regexMatchers("/img/*.*")
+				.permitAll()
+			.regexMatchers("/js/*.*")
+				.permitAll() 
+			.regexMatchers("/bootstrap/*.*")
+				.permitAll() 
+			.regexMatchers("/ayuda")
+				.permitAll()
+			.anyRequest()
+				.authenticated()
+					.and()
+						.formLogin()
+							.loginPage("/login")
+							.loginProcessingUrl("/loginprocess")
+							.permitAll()
+					.and()
+						.logout()
+						.permitAll();
+		
+		return http.build();	
+		
+	}
 	
 	
 

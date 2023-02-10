@@ -22,9 +22,21 @@ public class MainController {
 		
 		
 		
-		objModel.addAttribute("Usuarios", objTablaUsuario);
+		for(int i=0;i<objTablaUsuario.size();i++) {
+			System.out.println(objTablaUsuario.get(i).getRol());
+		}
 		
+		objModel.addAttribute("Usuarios", objTablaUsuario);
 		
 		return "home";
 	}
+
+	
+	@GetMapping(value={"/login"})
+	public String login() {
+		return "login";
+	}
+	
+
+
 }
