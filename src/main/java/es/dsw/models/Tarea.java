@@ -4,8 +4,11 @@ public class Tarea {
 	
 	private int id;
 	private int idUsuarioCrea;
+	private String usuarioCrea;
 	private int idExplotacion;
+	private String explotacion;
 	private int idOperario;
+	private String operario;
 	private String status;
 	private String tipo;
 	
@@ -14,14 +17,21 @@ public class Tarea {
 	}
 
 
-	public Tarea(int id, int idUsuarioCrea, int idExplotacion, int idOperario, String status, String tipo) {
+	public Tarea(int id, int idUsuarioCrea, String usuarioCrea, int idExplotacion, String explotacion, int idOperario,
+			String operario, String status, String tipo) {
 		this.id = id;
 		this.idUsuarioCrea = idUsuarioCrea;
+		this.usuarioCrea = usuarioCrea;
 		this.idExplotacion = idExplotacion;
+		this.explotacion = explotacion;
 		this.idOperario = idOperario;
+		this.operario = operario;
 		this.status = status;
 		this.tipo = tipo;
 	}
+
+
+
 
 
 	public int getId() {
@@ -81,6 +91,36 @@ public class Tarea {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+
+	public String getUsuarioCrea() {
+		return usuarioCrea;
+	}
+
+
+	public void setUsuarioCrea(String usuarioCrea) {
+		this.usuarioCrea = usuarioCrea;
+	}
+
+
+	public String getExplotacion() {
+		return explotacion;
+	}
+
+
+	public void setExplotacion(String explotacion) {
+		this.explotacion = explotacion;
+	}
+
+
+	public String getOperario() {
+		return operario;
+	}
+
+
+	public void setOperario(String operario) {
+		this.operario = operario;
 	}
 	
 	

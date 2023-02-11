@@ -5,16 +5,28 @@ public class Variedad {
 	private int id;
 	private String siembra;
 	private String cosecha;
+	private String nombre;
 	
 	
 	public Variedad() {
 	}
 
 
-	public Variedad(int id, String siembra, String cosecha) {
+	public Variedad(int id, String siembra, String cosecha, String nombre) {
 		this.id = id;
 		this.siembra = siembra;
 		this.cosecha = cosecha;
+		this.nombre = nombre;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 

@@ -84,8 +84,57 @@ public class UsuariosDao {
 		MySqlConnection objConnection = new MySqlConnection();
 		Usuario objUsuario = null;
 		
-		
-		
+		try {
+			objConnection.open();
+			if(!objConnection.isError()){
+				String sql = "SELECT * FROM usuarios WHERE id = " + id;
+				ResultSet Result = objConnection.executeSelect(sql);
+				while(Result.next()) {
+					objUsuario = new Usuario();
+					
+					objUsuario.setId(Result.getInt("ID"));
+					objUsuario.setNombre(Result.getString("NOMBRE"));
+					objUsuario.setApellidos(Result.getString("APELLIDOS"));
+					objUsuario.setDireccion(Result.getString("DIRECCION"));
+					objUsuario.setTlf(Result.getString("TLF"));
+					objUsuario.setMail(Result.getString("EMAIL"));
+					objUsuario.setNif(Result.getString("NIF"));
+					objUsuario.setPassword(Result.getString("password"));
+					
+					UsuariosRolesDao objUsuarioRolDao = new UsuariosRolesDao();
+					ArrayList<UsuarioRol> objTablaUsuarioRol = objUsuarioRolDao.getById(Result.getInt("ID"));
+					Iterator<UsuarioRol> iterator = objTablaUsuarioRol.iterator();
+
+					RolesDao objRolDao = new RolesDao();
+					
+					ArrayList<Rol> objTablaRol = new ArrayList<Rol>();
+					ArrayList<String> Roles = new ArrayList<String>();
+					
+					while(iterator.hasNext()) {
+						UsuarioRol objUsuarioRol = new UsuarioRol();
+						objUsuarioRol.setIdRol(iterator.next().getIdRol());
+						
+						objTablaRol = objRolDao.getById(objUsuarioRol.getIdRol());
+						Iterator<Rol> iter = objTablaRol.iterator();
+						
+						while(iter.hasNext()) {
+							Roles.add(iter.next().getNombre());
+						}
+					}
+					objUsuario.setRol(Roles);
+					
+					
+				}
+			}else {
+				this.flagError = true;
+				this.msgError = "Error en getAll. El objeto clsConectionMysql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		}catch (Exception ex) {
+			this.flagError = true;
+			this.msgError = "Error en getAll. +Info: " + ex.getMessage();
+		}finally {
+			objConnection.close();
+		}
 		
 		return objUsuario;
 	}

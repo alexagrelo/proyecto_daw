@@ -1,6 +1,6 @@
 package es.dsw.models;
 
-public class Explotación {
+public class Explotacion {
 	
 	private int id;
 	private String nombre;
@@ -11,11 +11,11 @@ public class Explotación {
 	private String variedad;
 	
 	
-	public Explotación() {
+	public Explotacion() {
 	}
 
 
-	public Explotación(int id, String nombre, double superficie, String direccion, String fuenteAgua, int idVariedad,
+	public Explotacion(int id, String nombre, double superficie, String direccion, String fuenteAgua, int idVariedad,
 			String variedad) {
 		this.id = id;
 		this.nombre = nombre;

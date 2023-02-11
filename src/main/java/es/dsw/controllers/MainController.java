@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import es.dsw.daos.TareasDao;
 import es.dsw.daos.UsuariosDao;
+import es.dsw.models.Tarea;
 import es.dsw.models.Usuario;
 
 @Controller
@@ -20,13 +22,11 @@ public class MainController {
 		UsuariosDao objUsuarioDao = new UsuariosDao();
 		ArrayList<Usuario> objTablaUsuario = objUsuarioDao.getAll();
 		
-		
-		
-		for(int i=0;i<objTablaUsuario.size();i++) {
-			System.out.println(objTablaUsuario.get(i).getRol());
-		}
+		TareasDao objTareasDao = new TareasDao();
+		ArrayList<Tarea> objTablaTarea = objTareasDao.getAll();
 		
 		objModel.addAttribute("Usuarios", objTablaUsuario);
+		objModel.addAttribute("Tareas", objTablaTarea);
 		
 		return "home";
 	}
@@ -37,6 +37,13 @@ public class MainController {
 		return "login";
 	}
 	
-
+	
+	@GetMapping(value= {"/tareasView"})
+	public String tareasView() {
+		
+		
+		
+		return "tareasView";
+	}
 
 }
