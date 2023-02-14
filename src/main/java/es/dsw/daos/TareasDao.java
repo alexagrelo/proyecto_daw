@@ -54,7 +54,7 @@ public class TareasDao {
 			}			
 			else {
 				this.flagError = true;
-				this.msgError = "Error en getOnce. El objeto MySqlConnection informa error al abrir conexión. +Info: " + objConnection.msgError();
+				this.msgError = "Error en getAll. El objeto MySqlConnection informa error al abrir conexión. +Info: " + objConnection.msgError();
 			   }
 			
 		}catch (Exception ex) {
@@ -85,8 +85,10 @@ public class TareasDao {
 						+ "("+objTarea.getIdUsuarioCrea() + ","
 						+ " "+objTarea.getIdExplotacion() + ","
 						+ " "+objTarea.getIdOperario() + ","
-						+ "'"+objTarea.getStatus()+"',"
-						+ "'"+objTarea.getTipo()+"')";
+						+ " '"+objTarea.getStatus()+"',"
+						+ " '"+objTarea.getTipo()+"')";
+				
+				objConnection.executeInsert(sql);
 			}else {
 				 this.flagError = true;
 				 this.msgError = "Error en setTarea. El objeto clsConectionMySql informa error al abrir conexión. +Info: " + objConnection.msgError();
@@ -94,7 +96,7 @@ public class TareasDao {
 			
 		}catch (Exception ex) {
 			this.flagError = true;
-			this.msgError = "Error en setArticulo. +Info: " + ex.getMessage();
+			this.msgError = "Error en setTarea. +Info: " + ex.getMessage();
     	} finally {
 			objConnection.close();
     	}

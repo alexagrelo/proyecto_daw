@@ -55,6 +55,28 @@ public ArrayList<UsuarioRol> getById(int idUsuario) {
 	}
 
 		
-	
+	public void setUsuarioRol(int idUsuario, int idRol) {
+		MySqlConnection objConnection = new MySqlConnection();
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				String sql = "INSERT INTO usuarios_roles "
+						+ "(ID_USUARIO,"
+						+ "ID_ROL)"
+						+"VALUES "
+						+"(" + idUsuario + ","
+						+ " "+ idRol + ")";
+				objConnection.executeInsert(sql);
+			}else {
+				this.flagError = true;
+				this.msgError = "Error en setUsuarioRol. El objeto clsConectionMysql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		}catch (Exception ex) {
+			this.flagError = true;
+			this.msgError = "Error en setUsuarioRol. +Info: " + ex.getMessage();
+    	} finally {
+			objConnection.close();
+    	}
+	}
 
 }
