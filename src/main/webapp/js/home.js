@@ -9,28 +9,10 @@
   $("#tables").load("./tareasView");
 })
 
-$('body').on('click', ".eliminar", function(){
-	let token = $("meta[name='_csrf']").attr("content");
-	let header = $("meta[name='_csrf_header']").attr("content");
-	
-	let idUsuario =$(this).attr("data");
-	
-	$.ajax({
-		type:"POST",
-		url:"./eliminarUsuario",
-		data: "eliminar="+idUsuario,
-		dataType:"json",
-		beforeSend: request => request.setRequestHeader(header, token),
-
-	})
-	
-	setTimeout(() => {
-			$("#tables").load("./usuariosView");			
-		},"1000")
-})
 
 
-$(document).ready(function(){
+
+//$(document).ready(function(){
 	$("body").on("click", "#GuardarUsuario", function(){
 		
 		
@@ -74,4 +56,69 @@ $(document).ready(function(){
 			}
 		})
 	})
+	
+	$('body').on('click', ".eliminarUsuario", function(){
+	let token = $("meta[name='_csrf']").attr("content");
+	let header = $("meta[name='_csrf_header']").attr("content");
+	
+	var idUsuario =$(this).attr("data");
+	
+	$.ajax({
+		method:"POST",
+		url:"./eliminarUsuario",
+		data: {eliminar: idUsuario},
+		dataType:"json",
+		beforeSend: request => request.setRequestHeader(header, token),
+
+	})
+	
+	setTimeout(() => {
+			$("#tables").load("./usuariosView");			
+		},"1000")
 })
+
+
+$('body').on('click', '.editarUsuario', function(){
+	
+	var data_id = $(this).parents("tr").find(".updtId").html();
+	var data_nombre = $(this).parents("tr").find('.updtNombre').html();
+	var data_apellidos = $(this).parents("tr").find('.updtApellidos').html();
+	var data_direccion = $(this).parents("tr").find('.updtDireccion').html();
+	var data_tlf = $(this).parents("tr").find('.updtTlf').html();
+	var data_mail = $(this).parents("tr").find('.updtMail').html();
+	var data_nif = $(this).parents("tr").find('.updtNif').html();
+	var data_rol = $(this).parents("tr").find('.updtRol').html();
+	var data_password = $(this).parents("tr").find('.updtPassword').html();
+	
+	$("#mensajeUpdate").html("");
+	
+	let token = $("meta[name='_csrf']").attr("content");
+	let header = $("meta[name='_csrf_header']").attr("content");
+	
+	
+	$.ajax({
+		url:"./updateUsuario",
+		method: "POST",
+		data:{id: data_id, nombre: data_nombre, apellidos: data_apellidos, direccion: data_direccion, tlf : data_tlf, mail: data_mail, nif: data_nif, rol: data_rol, password: data_password },
+		beforeSend: request => request.setRequestHeader(header,token),
+		success: function(resultText){
+			console.log(data_rol);
+			$("#mensajeUpdate").html(resultText);
+			if(data_nombre != "" && data_password != "" && data_mail != "" && data_rol != ""&&(data_rol == "[operario]" || data_rol == "[capataz]" || data_rol == "[cliente]" || data_rol == "[administrador]") ){ 
+			setTimeout(() => {
+				$("#tables").load("./usuariosView");
+				$("#mensajeUpdate").html("");
+			})}
+			
+		},
+			error: function(jqXHR, exception) {
+			$('#mensajeUpdate').html('<p>Ha ocurrido un error fatal.</p>');
+			}
+	})
+	
+	
+	
+})
+
+
+//})

@@ -3,9 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
   
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link href="./bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="./js/jquery-3.6.1.min.js"></script>
+    <script src="./bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> 
+    <script src="./js/home.js"></script>
+</head>
+<body>
 
-
-<table class="table table-striped">
+<table class="table table-striped" id="">
 	<thead>
 		<tr>
 			<th>id</th>
@@ -22,19 +34,22 @@
 	<tbody>
 		<c:forEach begin="0" step ="1" items="${Usuarios}" var="item">
 			<tr>
-				<td>${item.getId() }</td>
-				<td>${item.getNombre() }</td>
-				<td>${item.getApellidos() }</td>
-				<td>${item.getDireccion() }</td>
-				<td>${item.getTlf() }</td>
-				<td>${item.getMail() }</td>
-				<td>${item.getNif() }</td>
-				<td>${item.getRol() }</td>
-				<td>${item.getPassword() }</td>
-				<td><form:form> <input type="button" class="editar btn btn-primary" data="${item.getId()}" value="Editar"/></form:form> </td>
-				<td><form:form> <input type="button" class="eliminar btn btn-danger" data="${item.getId()}" value="Eliminar"/></form:form> </td>
+				<td class="updtId">${item.getId() }</td>
+				<td class="updtNombre" contenteditable=true>${item.getNombre() }</td>
+				<td class="updtApellidos" contenteditable=true>${item.getApellidos() }</td>
+				<td class="updtDireccion" contenteditable=true>${item.getDireccion() }</td>
+				<td class="updtTlf" contenteditable=true>${item.getTlf() }</td>
+				<td class="updtMail" contenteditable=true>${item.getMail() }</td>
+				<td class="updtNif" contenteditable=true>${item.getNif() }</td>
+				<td class="updtRol" contenteditable=true>${item.getRol() }</td>
+				<td class="updtPassword" contenteditable=true>${item.getPassword() }</td>
+				<td><form:form> <input type="button" class="editarUsuario btn btn-primary"  value="Editar"/></form:form> </td>
+				<td><form:form> <input type="button" class="eliminarUsuario btn btn-danger" data="${item.getId()}" value="Eliminar"/></form:form> </td>
 				
 			</tr>
 		</c:forEach>
 	</tbody>	
 </table>
+
+</body>
+</html>

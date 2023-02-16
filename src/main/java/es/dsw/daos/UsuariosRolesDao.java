@@ -78,5 +78,49 @@ public ArrayList<UsuarioRol> getById(int idUsuario) {
 			objConnection.close();
     	}
 	}
+	
+	public void updateUsuarioRol(UsuarioRol objUsuarioRol) {
+		MySqlConnection objConnection = new MySqlConnection();
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				String sql = "UPDATE usuarios_roles set "
+						+ "ID_USUARIO = "+ objUsuarioRol.getIdUsuario() + ", "
+						+ "ID_ROL = " + objUsuarioRol.getIdRol() + " "
+						+ "WHERE ID_USUARIO = " + objUsuarioRol.getIdUsuario();
+				System.out.println("sql update usuariorol: " + sql);
+				objConnection.executeUpdateOrDelete(sql);
+			}else {
+				 this.flagError = true;
+				 this.msgError = "Error en setTarea. El objeto clsConectionMySql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		}catch (Exception ex) {
+			this.flagError = true;
+			this.msgError = "Error en setTarea. +Info: " + ex.getMessage();
+    	} finally {
+			objConnection.close();
+    	}
+	}
+	
+	public UsuarioRol getByIdUsuario(int idUsuario) {
+		MySqlConnection objConnection = new MySqlConnection();
+		UsuarioRol objUsuarioRol = null;
+		
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				String sql = "SELECT * FROM usuarios_roles WHERE id_usuario = " + idUsuario;
+			}
+			
+		} catch (Exception ex) {
+		       this.flagError = true;
+		       this.msgError = "Error en deleteById. +Info: " + ex.getMessage();
+		} finally {
+		       objConnection.close();
+		}
+		
+		
+		return objUsuarioRol;
+	}
 
 }

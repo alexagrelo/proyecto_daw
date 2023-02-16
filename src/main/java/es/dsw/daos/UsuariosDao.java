@@ -160,7 +160,6 @@ public class UsuariosDao {
 						+" '"+objUsuario.getMail()+"',"
 						+" '"+objUsuario.getNif()+"',"
 						+" '"+objUsuario.getPassword()+"')";
-				System.out.println("sql para insertar usuario: " + sql);
 				objConnection.executeInsert(sql);
 			}else {
 				this.flagError = true;
@@ -252,10 +251,38 @@ public class UsuariosDao {
 		} catch (Exception ex) {
 		       this.flagError = true;
 		       this.msgError = "Error en deleteById. +Info: " + ex.getMessage();
-   } finally {
+		} finally {
 		       objConnection.close();
-   }
+		}
 	
+	}
+	
+	
+	public void updateUser(Usuario objUsuario) {
+		MySqlConnection objConnection = new MySqlConnection();
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				String sql = "UPDATE usuarios set "
+						+ "NOMBRE = '" + objUsuario.getNombre() + "', "
+						+ "APELLIDOS = '" + objUsuario.getApellidos() + "', "
+						+ "DIRECCION = '" + objUsuario.getDireccion() + "', "
+						+ "TLF = '" + objUsuario.getTlf() + "', "
+						+ "EMAIL = '" + objUsuario.getMail() + "', "
+						+ "NIF = '" + objUsuario.getNif() + "', "
+						+ "password = '" + objUsuario.getPassword() + "' "
+						+ "WHERE ID = " + objUsuario.getId();
+				objConnection.executeUpdateOrDelete(sql);							
+			}else {
+				 this.flagError = true;
+				 this.msgError = "Error en setTarea. El objeto clsConectionMySql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		} catch (Exception ex) {
+		       this.flagError = true;
+		       this.msgError = "Error en deleteById. +Info: " + ex.getMessage();
+		} finally {
+		       objConnection.close();
+}
 	}
 
 }

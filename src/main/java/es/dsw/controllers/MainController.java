@@ -16,19 +16,22 @@ import es.dsw.daos.UsuariosRolesDao;
 import es.dsw.models.Rol;
 import es.dsw.models.Tarea;
 import es.dsw.models.Usuario;
+import es.dsw.models.UsuarioRol;
 
 @Controller
 public class MainController {
 
 	
-	@GetMapping(value= {"/","/home"})
-	public String home(Model objModel) {
+	@RequestMapping(value= {"/","/home"})
+	public String home(Model objModel, @RequestParam(name="modificar", required=false, defaultValue="1") String modificar) {
 		
 		RolesDao objRolDao = new RolesDao();
 		ArrayList<Rol> objTablaRol = objRolDao.getAll();
 		
 		objModel.addAttribute("Roles", objTablaRol);
 		
+				
+
 		return "home";
 	}
 
@@ -150,5 +153,96 @@ public class MainController {
 		
 		UsuariosDao objUsuarioDao = new UsuariosDao();
 		objUsuarioDao.deleteById(idUser);
+	}
+	
+	
+	@RequestMapping(value= {"/updateUsuario"}, method = RequestMethod.POST)
+	private String updateUsuario(@RequestParam("id") String id,@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos, @RequestParam("direccion") String direccion, @RequestParam("tlf") String tlf, @RequestParam("mail") String mail, @RequestParam("nif") String nif, @RequestParam("password") String password, @RequestParam("rol") String rol, Model objModel) {
+		
+		int idUser = Integer.parseInt(id);
+		String subRol = rol.substring(1,rol.length()-1).toLowerCase();
+		
+		System.out.println(subRol);
+		
+		String mensaje="";
+		boolean error = false;
+		
+		ArrayList<String> roles = new ArrayList<>();
+		
+		
+
+		
+		if(nombre != "" && password != "" && mail != "" && rol != "" ||(subRol == "operario" || subRol == "capataz" || subRol == "cliente" || subRol == "administrador")) {
+			
+			Usuario user = new Usuario();
+			
+			
+			
+			RolesDao objRolDao = new RolesDao();
+			Rol objRol = objRolDao.getByName(subRol);
+			
+			roles.add(rol);
+			
+			user.setNombre(nombre);
+			user.setApellidos(apellidos);
+			user.setDireccion(direccion);
+			user.setTlf(tlf);
+			user.setMail(mail);
+			user.setNif(nif);
+			user.setPassword(password);
+			user.setId(idUser);
+			
+			UsuariosDao objUsuarioDao = new UsuariosDao();
+			objUsuarioDao.updateUser(user);
+			
+			
+			mensaje = mensaje + "El usuario ha sido modificado correctamente";
+			
+			
+			try {
+				Thread.sleep(3000);
+			int idRol = objRol.getId();			
+			UsuariosRolesDao objUsuariosRolesDao = new UsuariosRolesDao();
+			
+			UsuarioRol objUsuarioRolmod = new UsuarioRol();
+			objUsuarioRolmod.setIdRol(idRol);
+			objUsuarioRolmod.setIdUsuario(idUser);
+			
+			objUsuariosRolesDao.updateUsuarioRol(objUsuarioRolmod);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		if(nombre == "") {
+			mensaje = mensaje + "Debe introducir el nombre del usuario. ";
+			error = true;
+		}
+		if(password == "") {
+			mensaje = mensaje + "Debe introducir el password. ";
+			error = true;
+		}
+		if(mail == "") {
+			mensaje = mensaje + "Debe introducir el correo. ";
+			error = true;
+		}
+		if(rol == "") {
+			mensaje = mensaje + "Debe introducir el rol del usuarios. ";
+			error = true;
+		}
+		if(subRol != "operario" && subRol != "capataz" && subRol != "cliente" && subRol != "administrador") {
+			mensaje = mensaje + "Los roles deben ser operario, capataz, cliente o administrador";
+			error =  true;
+		}
+		
+		
+		objModel.addAttribute("mensaje", mensaje);
+		objModel.addAttribute("error", error);
+		
+	
+		
+		
+		
+		return "updateUsuario";
 	}
 }
