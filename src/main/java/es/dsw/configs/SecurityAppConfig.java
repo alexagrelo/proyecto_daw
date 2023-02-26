@@ -47,17 +47,20 @@ public class SecurityAppConfig {
 				
 		UsuariosDao Usuarios = new UsuariosDao();
 		ArrayList<Usuario> objListaUsuario = Usuarios.getAll();
-		String roles = "";
+		//String roles = "";
         InMemoryUserDetailsManager InMemory = new InMemoryUserDetailsManager();//new InMemoryUserDetailsManager(user);
 
        for(Usuario usuario: objListaUsuario) {
-    	    roles.concat(usuario.getRol().toString());
+    	   StringBuilder roles = new StringBuilder("");
+			for(String eachstring: usuario.getRol()) {
+				roles.append(eachstring).append(",");
+			}
     	    
     	    @SuppressWarnings("deprecation")
     	    UserDetails user = User.withDefaultPasswordEncoder()
     	    .username(usuario.getNombre())
     	    .password(usuario.getPassword())
-    	    .roles(roles)
+    	    .roles(roles.toString().split(","))
     	    .build();
     	    
     	    InMemory.createUser(user);

@@ -20,7 +20,7 @@
 <table class="table table-striped" id="">
 	<thead>
 		<tr>
-			<th>id</th>
+			<th>ID</th>
 			<th>nombre</th>
 			<th>apellidos</th>
 			<th>direccion</th>

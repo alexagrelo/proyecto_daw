@@ -10,9 +10,11 @@
 })
 
 
+/*
+			LÓGICA PARA LOS USUARIOS
 
+*/
 
-//$(document).ready(function(){
 	$("body").on("click", "#GuardarUsuario", function(){
 		
 		
@@ -29,6 +31,7 @@
 		
 		
 		$("#errorUsuario").html("");
+		$("#mensajeUpdate").html("");
 		
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
@@ -108,7 +111,7 @@ $('body').on('click', '.editarUsuario', function(){
 			setTimeout(() => {
 				$("#tables").load("./usuariosView");
 				$("#mensajeUpdate").html("");
-			})}
+			}, "2000")}
 			
 		},
 			error: function(jqXHR, exception) {
@@ -121,4 +124,117 @@ $('body').on('click', '.editarUsuario', function(){
 })
 
 
-//})
+
+/*
+		LÓGICA DE LAS TAREAS		
+*/
+
+
+$("body").on("click", "#GuardarTarea", function(){
+		
+		
+		
+		var data_explotacion = $("#formExplotacion").val();
+		var data_operario = $("#formOperario").val();
+		var data_tipo = $("#formTipo").val();
+		
+		
+		
+		$("#errorTarea").html("");
+		$("#mensajeUpdate").html("");
+		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
+		
+		$.ajax({
+			url:"./nuevaTarea",
+			method: "POST",
+			data:{explotacion: data_explotacion, operario: data_operario, tipo: data_tipo},
+			beforeSend: request => request.setRequestHeader(header,token),
+			success: function(resultText){
+				$("#errorTarea").html(resultText);
+				if(data_explotacion !="" && data_operario!= "" && data_tipo != ""){
+					
+					setTimeout(() => {
+						$("#cerrarFormTarea").trigger("click");
+						$("#newTareaForm").trigger("reset");
+						$("#errorTarea").html("");
+						$("#tables").load("./tareasView");
+					},"2000");
+				}
+			},
+			error: function(jqXHR, exception) {
+			$('#errorTarea').html('<p>Ha ocurrido un error fatal.</p>');
+			}
+		})
+	})
+	
+	
+	
+	
+	
+$('body').on('click', ".eliminarTarea", function(){
+	let token = $("meta[name='_csrf']").attr("content");
+	let header = $("meta[name='_csrf_header']").attr("content");
+	
+	var idTarea =$(this).attr("data");
+	console.log(idTarea)
+	
+	$.ajax({
+		method:"POST",
+		url:"./eliminarTarea",
+		data: {eliminar: idTarea},
+		dataType:"json",
+		beforeSend: request => request.setRequestHeader(header, token),
+
+	})
+	
+	setTimeout(() => {
+			$("#tables").load("./tareasView");			
+		},"1000")
+})
+
+
+	
+	
+	$('body').on('click','.editarTarea', function(){
+		
+		console.log("id tarea: " + $(this).parents('tr').find('.updtIdTarea').html());
+		
+		var data_id = $(this).parents('tr').find('.updtIdTarea').html();
+		var data_usuarioCrea =$(this).parents('tr').find('.updtUsuarioCreaTarea').html();
+		var data_explotacion =$(this).parents('tr').find('.updtExplotacionTarea').html();
+		var data_operario =$(this).parents('tr').find('.updtOperarioTarea').html();
+		var data_status =$(this).parents('tr').find('.updtStatusTarea').html();
+		var data_tipo =$(this).parents('tr').find('.updtTipoTarea').html();
+		
+		$("#mensajeUpdate").html("");
+		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
+		$.ajax({
+			url: "./updateTarea",
+			mehtod: "POST",
+			data: {id: data_id, usuarioCrea: data_usuarioCrea, explotacion: data_explotacion, operario: data_operario, status: data_status, tipo: data_tipo},
+			beforeSend: request => request.setRequestHeader(header,token),
+			success: function(resultText){
+				console.log(data_status);
+				$("#mensajeUpdate").html(resultText);
+				if(data_usuarioCrea != "" && data_explotacion != "" && data_operario != "" && data_status != "" && data_tipo != ""){
+					setTimeout(() => {
+						$("#tables").load("./tareasView");
+						$("#mensajeUpdate").html("");
+					}, "2000")
+				}
+			},
+			error: function(jqXHR, exception) {
+			$('#mensajeUpdate').html('<p>Ha ocurrido un error fatal.</p>');
+			}
+		})
+	})
+	
+
+	
+

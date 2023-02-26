@@ -26,7 +26,8 @@ public class ExplotacionesDao {
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM explotaciones");
+				String sql = "SELECT * FROM explotaciones";
+				ResultSet Result = objConnection.executeSelect(sql);
 				while(Result.next()) {
 					Explotacion objExplotacion = new Explotacion();
 					
@@ -35,11 +36,13 @@ public class ExplotacionesDao {
 					objExplotacion.setSuperficie(Result.getDouble("SUPERFICIE_M2"));
 					objExplotacion.setDireccion(Result.getString("DIRECCION"));
 					objExplotacion.setFuenteAgua(Result.getString("FUENTE_AGUA"));
+					objExplotacion.setIdVariedad(Result.getInt("ID_VARIEDAD"));
 					
 					VariedadesDao objVariedadesDao = new VariedadesDao();
 					Variedad objVariedad= objVariedadesDao.getById(Result.getInt("ID_VARIEDAD"));
 					
 					objExplotacion.setVariedad(objVariedad.getNombre());
+					objTablaExplotacion.add(objExplotacion);
 				}
 			}else {
 				this.flagError = true;
@@ -86,6 +89,44 @@ public class ExplotacionesDao {
 		}catch (Exception ex) {
 			this.flagError = true;
 			this.msgError = "Error en getAll. +Info: " + ex.getMessage();
+		}finally {
+			objConnection.close();
+		}
+		
+		
+		
+		return objExplotacion;
+	}
+	
+	
+	public Explotacion getExplotacionByName(String nameExplotacion) {
+		MySqlConnection objConnection = new MySqlConnection();
+		Explotacion objExplotacion = null;
+		
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM variedades WHERE nombre = " + nameExplotacion);
+				while(Result.next()) {
+					objExplotacion = new Explotacion();
+					objExplotacion.setId(Result.getInt("ID"));
+					objExplotacion.setNombre(Result.getString("NOMBRE"));
+					objExplotacion.setSuperficie(Result.getDouble("SUPERFICIE_M2"));
+					objExplotacion.setDireccion(Result.getString("DIRECCION"));
+					objExplotacion.setFuenteAgua(Result.getString("FUENTE_AGUA"));
+					
+					VariedadesDao objVariedadesDao = new VariedadesDao();
+					Variedad objVariedad= objVariedadesDao.getById(Result.getInt("ID_VARIEDAD"));
+					
+					objExplotacion.setVariedad(objVariedad.getNombre());
+				}
+			}else {
+				this.flagError = true;
+				this.msgError = "Error en getExplotacionByName. El objeto clsConectionMysql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		}catch (Exception ex) {
+			this.flagError = true;
+			this.msgError = "Error en getExplotacionByName. +Info: " + ex.getMessage();
 		}finally {
 			objConnection.close();
 		}

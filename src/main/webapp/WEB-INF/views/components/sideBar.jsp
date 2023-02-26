@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html >
 <head>
@@ -24,11 +26,7 @@
           Home
         </a>
       </li>
-      <li>
-        <a href="#" class="nav-link text-white" id="btnListarTareas">
-          Tareas
-        </a>
-      </li>
+      <security:authorize access="hasRole('Administrador')">
       <li>
         <a href="#" class="nav-link text-white" id="btnListarUsuarios">
           Usuarios
@@ -39,11 +37,19 @@
           Nuevo Usuario
         </a>
       </li>
+      </security:authorize>
       <li>
-        <a href="#" class="nav-link text-white">
-          Customers
+        <a href="#" class="nav-link text-white" id="btnListarTareas">
+          Tareas
         </a>
       </li>
+      <security:authorize access="hasRole('Administrador') || hasRole('Capataz')">
+      <li>
+        <a href="#" class="nav-link text-white" data-toggle="modal" data-target="#NuevaTareaCenter">
+          Nueva Tarea
+        </a>
+      </li>
+      </security:authorize>
        <li class="nav-item">
       	<form id="logout" action="./logout" method="post" >
   			<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"  />

@@ -27,8 +27,9 @@ public class TareasDao {
 		
 		try {
 			objConnection.open();
-			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas");
+			if(!objConnection.isError()) {				
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas ORDER BY id DESC");
+				System.out.println("getall");
 				while(Result.next()) {
 					Tarea objTarea = new Tarea();
 					
@@ -65,6 +66,55 @@ public class TareasDao {
 		}
 		
 		
+		return objTablaTarea;
+	}
+	
+	
+public ArrayList<Tarea> getByOperario(int idOperario){
+		
+		MySqlConnection objConnection = new MySqlConnection();
+		ArrayList<Tarea> objTablaTarea = new ArrayList<Tarea>();
+		
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {				
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas WHERE id_operario_asignado = " + idOperario);
+				System.out.println("getall");
+				while(Result.next()) {
+					Tarea objTarea = new Tarea();
+					
+					objTarea.setId(Result.getInt("ID"));
+					objTarea.setStatus(Result.getString("STATUS"));
+					objTarea.setTipo(Result.getString("TIPO"));
+					
+					UsuariosDao objUsuariosDao = new UsuariosDao();
+					Usuario objUsuarioCrea = objUsuariosDao.getUserById(Result.getInt("ID_USUARIO_CREA"));
+					objTarea.setUsuarioCrea(objUsuarioCrea.getNombre());
+					
+					ExplotacionesDao objExplotacionesDao = new ExplotacionesDao();
+					Explotacion objExplotacion = objExplotacionesDao.getExplotacionById(Result.getInt("ID_EXPLOTACION"));
+					objTarea.setExplotacion(objExplotacion.getNombre());
+					
+					
+					Usuario objUsuarioOperario = objUsuariosDao.getUserById(Result.getInt("ID_OPERARIO_ASIGNADO"));
+					objTarea.setOperario(objUsuarioOperario.getNombre());				
+					
+					
+					objTablaTarea.add(objTarea);
+				}
+			}			
+			else {
+				this.flagError = true;
+				this.msgError = "Error en getAll. El objeto MySqlConnection informa error al abrir conexión. +Info: " + objConnection.msgError();
+			   }
+			
+		}catch (Exception ex) {
+			this.flagError = true;
+			this.msgError = "Error en getAll. +Info: " + ex.getMessage();
+		}finally {
+			objConnection.close();
+		}
+		
 		
 		return objTablaTarea;
 	}
@@ -87,7 +137,6 @@ public class TareasDao {
 						+ " "+objTarea.getIdOperario() + ","
 						+ " '"+objTarea.getStatus()+"',"
 						+ " '"+objTarea.getTipo()+"')";
-				
 				objConnection.executeInsert(sql);
 			}else {
 				 this.flagError = true;
@@ -100,6 +149,52 @@ public class TareasDao {
     	} finally {
 			objConnection.close();
     	}
+	}
+	
+	public void deleteById(int idTarea) {
+		MySqlConnection objConnection = new MySqlConnection();
+		
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+				String sql = "DELETE FROM tareas WHERE id = " + idTarea;
+				
+				objConnection.executeUpdateOrDelete(sql);
+			}else {
+			    this.flagError = true;
+			    this.msgError = "Error en deleteById. El objeto clsConectionMySql informa error al abrir conexión. +Info: " + objConnection.msgError();
+		   }
+		} catch (Exception ex) {
+		       this.flagError = true;
+		       this.msgError = "Error en deleteById. +Info: " + ex.getMessage();
+		} finally {
+		       objConnection.close();
+		}
+	}
+	
+	public void updateTarea(Tarea objTarea) {
+		MySqlConnection objConnection = new MySqlConnection();
+		try {
+			objConnection.open();
+			if(!objConnection.isError()) {
+			String sql = "UPDATE tareas set "
+					+ "ID_USUARIO_CREA = " + objTarea.getIdUsuarioCrea() + ", "
+					+ "ID_EXPLOTACION = " + objTarea.getIdExplotacion() + ", "
+					+ "ID_OPERARIO_ASIGNADO = " + objTarea.getIdOperario() + ", "
+					+ "STATUS = '" + objTarea.getStatus() + "', "
+					+ "TIPO = '" + objTarea.getTipo() + "'";
+			
+			objConnection.executeUpdateOrDelete(sql);
+			}else {
+				 this.flagError = true;
+				 this.msgError = "Error en updateTarea. El objeto clsConectionMySql informa error al abrir conexión. +Info: " + objConnection.msgError();
+			}
+		} catch (Exception ex) {
+		       this.flagError = true;
+		       this.msgError = "Error en updateTarea. +Info: " + ex.getMessage();
+		} finally {
+		       objConnection.close();
+		}
 	}
 
 }
