@@ -48,22 +48,22 @@
 				<div class="modal-body">
 					<form:form id="newUserForm" method="POST" action="#">
 						<div class="form-group">
-							<label class="form-label">Nombre</label> <input type="text" id="formNombre" class="form-control">
+							<label class="form-label">Nombre</label> <input type="text" id="formNombre" class="form-control" placeholder="Introduzca su nombre">
 						</div>
 						<div class="form-group">
-							<label class="form-label">Apellidos</label> <input type="text" id="formApellidos" class="form-control">
+							<label class="form-label">Apellidos</label> <input type="text" id="formApellidos" class="form-control" placeholder="Introduzca sus apellidos">
 						</div>
 						<div class="form-group">
-							<label class="form-label">Dirección</label> <input type="text" id="formDireccion" class="form-control">
+							<label class="form-label">Dirección</label> <input type="text" id="formDireccion" class="form-control" placeholder="Introduzca su dirección">
 						</div>
 						<div class="form-group">
-							<label class="form-label">Teléfono</label> <input type="text" id="formTelefono" class="form-control">
+							<label class="form-label">Teléfono</label> <input type="text" id="formTelefono" class="form-control" placeholder="Introduzca su teléfono">
 						</div>
 						<div class="form-group">
-							<label class="form-label">Email</label> <input type="text" id="formMail" class="form-control">
+							<label class="form-label">Email</label> <input type="text" id="formMail" class="form-control" placeholder="Introduzca su email">
 						</div>
 						<div class="form-group">
-							<label>NIF</label> <input type="text" id="formNif" class="form-control">
+							<label>NIF</label> <input type="text" id="formNif" class="form-control" placeholder="Introduzca su nif">
 						</div>
 						<div class="form-group">
 							<label class="form-label">Rol</label> 
@@ -74,11 +74,11 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="form-label">Password</label> <input type="password" id="formPassword" class="form-control">
+							<label class="form-label">Password</label> <input type="password" id="formPassword" class="form-control" placeholder="Introduzca su contraseña, mínimo 6 caracteres">
 						</div>
 						<div class="form-group">
 							<label class="form-label">Repita el Password</label> <input type="password"
-								id="formPasswordRep" class="form-control">
+								id="formPasswordRep" class="form-control" placeholder="Repita su contraseña">
 						</div>
 					</form:form>
 				</div>

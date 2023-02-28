@@ -6,8 +6,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="_csrf" content="${_csrf.token}"/>
-	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<meta charset="ISO-8859-1">
 	<title>Insert title here</title>
 	<link href="./bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -40,7 +38,14 @@
 				<td class="updtTlf" contenteditable=true>${item.getTlf() }</td>
 				<td class="updtMail" contenteditable=true>${item.getMail() }</td>
 				<td class="updtNif" contenteditable=true>${item.getNif() }</td>
-				<td class="updtRol" contenteditable=true>${item.getRol() }</td>
+				<td  contenteditable=true>
+					<select class="updtRol">
+						<option value=${ item.getRol() } >${item.getRol() }</option>
+						<c:forEach begin="0" step="1" items="${Roles }" var="item2">
+							<option value=${ item2.getNombre() }>${item2.getNombre() }</option>
+						</c:forEach>
+					</select>
+				</td>
 				<td class="updtPassword" contenteditable=true>${item.getPassword() }</td>
 				<td><form:form> <input type="button" class="editarUsuario btn btn-primary"  value="Editar"/></form:form> </td>
 				<td><form:form> <input type="button" class="eliminarUsuario btn btn-danger" data="${item.getId()}" value="Eliminar"/></form:form> </td>

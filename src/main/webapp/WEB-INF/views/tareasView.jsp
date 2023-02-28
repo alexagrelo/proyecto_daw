@@ -24,7 +24,7 @@
 		<tr>
 			<th>ID</th>
 			<th>UsuarioCrea</th>
-			<th>Explotacion</th>
+			<th>Variedad</th>
 			<th>Operario</th>
 			<th>Status</th>
 			<th>Tipo</th>
@@ -36,16 +36,22 @@
 				<td class="updtIdTarea" contenteditable=true>${item.getId() }</td>
 				<td class="updtUsuarioTarea" contenteditable=true>${item.getUsuarioCrea() }</td>
 				<td class="updtExplotacionTarea" contenteditable=true>${item.getExplotacion() }</td>
-				<td class="updtOperarioTarea" contenteditable=true>
-					<select>
-						<option>${item.getOperario() }</option>
+				<td  contenteditable=true>
+					<select class="updtOperarioTarea">
+						<option value=${ item.getOperario() } >${item.getOperario() }</option>
 						<c:forEach begin="0" step="1" items="${Usuarios }" var="item2">
-							<option>${item2.getNombre() }</option>
+							<option value=${ item2.getNombre() }>${item2.getNombre() }</option>
 						</c:forEach>
 					</select>
 				</td>
-				<td class="updtStatusTarea" contenteditable=true>${item.getStatus() }</td>
-				<td class="updtTipoTarea" contenteditable=true>${item.getTipo() }</td>
+				<td  contenteditable=true>
+					<select class="updtStatusTarea">
+						<option value=${item.getStatus() } selected>${item.getStatus() }</option>
+						<option value="Pendiente">Pendiente</option>
+						<option value="Realizada">Realizada</option>
+					</select>
+				</td>
+				<td class="updtTitem2.getNombre()ipoTarea" contenteditable=true>${item.getTipo() }</td>
 				
 				<td><form:form> <input type="button" class="editarTarea btn btn-primary"  value="Editar"/></form:form> </td>
 				<td><form:form> <input type="button" class="eliminarTarea btn btn-danger" data="${item.getId()}" value="Eliminar"/></form:form> </td>
@@ -73,7 +79,13 @@
 				<td class="updtUsuarioCreaTarea">${item.getUsuarioCrea() }</td>
 				<td class="updtExplotacionTarea">${item.getExplotacion() }</td>
 				<td class="updtOperarioTarea">${item.getOperario() }</td>
-				<td class="updtStatusTarea" contenteditable=true>${item.getStatus() }</td>
+				<td  contenteditable=true>
+					<select class="updtStatusTarea">
+						<option value=${item.getStatus() } selected>${item.getStatus() }</option>
+						<option value="Pendiente">Pendiente</option>
+						<option value="Realizada">Realizada</option>
+					</select>
+				</td>
 				<td class="updtTipoTarea">${item.getTipo() }</td>
 				
 				<td><form:form> <input type="button" class="editarTarea btn btn-primary"  value="Editar"/></form:form> </td>

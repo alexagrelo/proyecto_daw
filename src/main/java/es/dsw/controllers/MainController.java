@@ -3,6 +3,8 @@ package es.dsw.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -75,11 +77,14 @@ public class MainController {
 		Usuario user = objUsuarioDao.getUserByMail(userName);
 		ArrayList<Tarea> objTablaTareaOperario = objTareasDao.getByOperario(user.getId());
 		
+		RolesDao objRolDao = new RolesDao();
+		ArrayList<Rol> objTablaRol = objRolDao.getAll();		 
 		
 		
 		objModel.addAttribute("Tareas", objTablaTarea);
 		objModel.addAttribute("TareasOperario", objTablaTareaOperario);
 		objModel.addAttribute("Usuarios", objTablaUsuario);
+		objModel.addAttribute("Roles", objTablaRol);
 
 		
 		return "tareasView";
@@ -107,9 +112,17 @@ public class MainController {
 		boolean error = false;
 		ArrayList<Integer> roles = new ArrayList<>();
 		
+		/*Pattern pattern = Pattern
+				.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		
+		Matcher matcher = pattern.matcher(mail);
+		
+		System.out.println("patron de mail" + matcher.find());*/
 		
 		
-		if(nombre != "" && password != "" && passwordrep != "" && password.equals(passwordrep)  && mail != "" && rol != -1) {
+		
+		if(nombre != "" /*&& matcher.find()*/ && password != "" && passwordrep != "" && password.equals(passwordrep)  && mail != "" && rol != -1 && password.length() >= 6) {
 			Usuario user = new Usuario();
 			Usuario userMail = new Usuario();
 			
@@ -146,32 +159,43 @@ public class MainController {
 			
 			
 			
+		}else {
+			
+			if(nombre == "") {
+				mensaje = mensaje + "Debe introducir el nombre del usuario. ";
+				error = true;
+			}
+			if(password == "") {
+				mensaje = mensaje + "Debe introducir el password. ";
+				error = true;
+			}
+			if(passwordrep == "") {
+				mensaje = mensaje + "Debe repetir el password. ";
+				error = true;
+			}
+			if(!password.equals(passwordrep)) {
+				mensaje = mensaje + "Las contraseñas no coinciden. ";
+				error = true;
+			}
+			if(mail == "") {
+				mensaje = mensaje + "Debe introducir el correo. ";
+				error = true;
+			}
+			if(rol == -1) {
+				mensaje = mensaje + "Debe introducir el rol del usuarios. ";
+				error = true;
+			}
+			/*if(matcher.find()==false) {
+				mensaje = mensaje + "El correo introducido no es correcto. ";
+				error = true;
+			}*/
+			if(password.length()<6) {
+				mensaje = mensaje + "El password debe tener al menos 6 caracteres";
+				error = true;
+			}
 		}
 		
-		if(nombre == "") {
-			mensaje = mensaje + "Debe introducir el nombre del usuario. ";
-			error = true;
-		}
-		if(password == "") {
-			mensaje = mensaje + "Debe introducir el password. ";
-			error = true;
-		}
-		if(passwordrep == "") {
-			mensaje = mensaje + "Debe repetir el password. ";
-			error = true;
-		}
-		if(!password.equals(passwordrep)) {
-			mensaje = mensaje + "Las contraseñas no coinciden. ";
-			error = true;
-		}
-		if(mail == "") {
-			mensaje = mensaje + "Debe introducir el correo. ";
-			error = true;
-		}
-		if(rol == -1) {
-			mensaje = mensaje + "Debe introducir el rol del usuarios. ";
-			error = true;
-		}
+		
 		
 		
 		objModel.addAttribute("mensaje", mensaje);
@@ -195,26 +219,35 @@ public class MainController {
 	private String updateUsuario(@RequestParam("id") String id,@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos, @RequestParam("direccion") String direccion, @RequestParam("tlf") String tlf, @RequestParam("mail") String mail, @RequestParam("nif") String nif, @RequestParam("password") String password, @RequestParam("rol") String rol, Model objModel) {
 		
 		int idUser = Integer.parseInt(id);
-		String subRol = rol.substring(1,rol.length()-1).toLowerCase();
+		if(rol.indexOf("[")!= -1) {
+			
+			rol = rol.substring(1,rol.length()-1).toLowerCase();
+		}
 		
-		System.out.println(subRol);
+		System.out.println(rol);
 		
 		String mensaje="";
 		boolean error = false;
 		
 		ArrayList<String> roles = new ArrayList<>();
 		
+		/*Pattern pattern = Pattern
+				.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		
+		Matcher matcher = pattern.matcher(mail);*/
+		
 		
 
 		
-		if(nombre != "" && password != "" && mail != "" && rol != "" ||(subRol == "operario" || subRol == "capataz" || subRol == "cliente" || subRol == "administrador")) {
+		if(nombre != "" /*&& password.length() >= 6 && matcher.find()== true*/ && password != ""  && mail != "" && rol != "" /*||(rol == "operario" || rol == "capataz" || rol == "cliente" || rol == "administrador")*/) {
 			
 			Usuario user = new Usuario();
 			
 			
 			
 			RolesDao objRolDao = new RolesDao();
-			Rol objRol = objRolDao.getByName(subRol);
+			Rol objRol = objRolDao.getByName(rol);
 			
 			roles.add(rol);
 			
@@ -265,10 +298,18 @@ public class MainController {
 			mensaje = mensaje + "Debe introducir el rol del usuarios. ";
 			error = true;
 		}
-		if(subRol != "operario" || subRol != "capataz" || subRol != "cliente" || subRol != "administrador") {
+		/*if(rol != "operario" || rol != "capataz" || rol != "cliente" || rol != "administrador") {
 			mensaje = mensaje + "Los roles deben ser operario, capataz, cliente o administrador";
 			error =  true;
-		}
+		}*/
+		/*if(matcher.find()==false) {
+			mensaje = mensaje + "El correo introducido no es correcto. ";
+			error = true;
+		}*/
+		/*if(password.length()<6) {
+			mensaje = mensaje + "El password debe tener al menos 6 caracteres";
+			error = true;
+		}*/
 		}
 		
 		objModel.addAttribute("mensaje", mensaje);
@@ -346,7 +387,6 @@ public class MainController {
 	private String updateTarea(@RequestParam("id") String id,@RequestParam("usuarioCrea") String usuarioCrea, @RequestParam("explotacion") String explotacion, @RequestParam("operario") String operario, @RequestParam("status") String status, @RequestParam("tipo") String tipo, Model objModel) {
 		
 		int idTarea = Integer.parseInt(id);
-		System.out.println(id);
 				
 		String mensaje="";
 		boolean error = false;		
@@ -362,13 +402,16 @@ public class MainController {
 			UsuariosDao objUsuarioDao = new UsuariosDao();			
 			Usuario objUsuarioCrea = objUsuarioDao.getUserbyName(usuarioCrea);
 			objTarea.setIdUsuarioCrea(objUsuarioCrea.getId());
+			System.out.println("id usuario crea tarea" + objUsuarioCrea.getId());
 			
 			ExplotacionesDao objExplotacionDao = new ExplotacionesDao();
 			Explotacion objExplotacion = objExplotacionDao.getExplotacionByName(explotacion);
 			objTarea.setIdExplotacion(objExplotacion.getId());
+			System.out.println("id usuario explotacion tarea" + objExplotacion.getId());
 			
 			Usuario objUsuarioOperario = objUsuarioDao.getUserbyName(operario);
 			objTarea.setIdOperario(objUsuarioOperario.getId());
+			System.out.println("id operario tarea" + objUsuarioOperario.getId());
 			
 			objTarea.setStatus(status);
 			objTarea.setTipo(tipo);
