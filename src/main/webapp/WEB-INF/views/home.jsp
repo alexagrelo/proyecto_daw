@@ -48,44 +48,45 @@
 				<div class="modal-body">
 					<form:form id="newUserForm" method="POST" action="#">
 						<div class="form-group">
-							<label>Nombre</label> <input type="text" id="formNombre">
+							<label class="form-label">Nombre</label> <input type="text" id="formNombre" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Apellidos</label> <input type="text" id="formApellidos">
+							<label class="form-label">Apellidos</label> <input type="text" id="formApellidos" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Dirección</label> <input type="text" id="formDireccion">
+							<label class="form-label">Dirección</label> <input type="text" id="formDireccion" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Teléfono</label> <input type="text" id="formTelefono">
+							<label class="form-label">Teléfono</label> <input type="text" id="formTelefono" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Email</label> <input type="text" id="formMail">
+							<label class="form-label">Email</label> <input type="text" id="formMail" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>NIF</label> <input type="text" id="formNif">
+							<label>NIF</label> <input type="text" id="formNif" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Rol</label> <select name="rol" id="formRol">
+							<label class="form-label">Rol</label> 
+							<select name="rol" id="formRol" class="form-control">
 								<c:forEach begin="0" step="1" items="${Roles }" var="item">
 									<option value=${ item.getId() }>${item.getNombre() }</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">
-							<label>Password</label> <input type="password" id="formPassword">
+							<label class="form-label">Password</label> <input type="password" id="formPassword" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Repita el Password</label> <input type="password"
-								id="formPasswordRep">
+							<label class="form-label">Repita el Password</label> <input type="password"
+								id="formPasswordRep" class="form-control">
 						</div>
 					</form:form>
 				</div>
 				<div id="errorUsuario"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" class="btn btn-danger"
 						data-dismiss="modal" id="cerrarFormUsuario">Cerrar</button>
-					<button id="GuardarUsuario" type="button" class="btn btn-dark">Guardar</button>
+					<button id="GuardarUsuario" type="button" class="btn btn-success">Guardar</button>
 				</div>
 			</div>
 		</div>
@@ -107,8 +108,8 @@
 				<div class="modal-body">
 					<form:form id="newTareaForm" method="POST" action="#">
 						<div class="form-group">
-							<label>Explotación</label> <select name="explotacion"
-								id="formExplotacion">
+							<label class="form-label">Explotación</label> <select name="explotacion"
+								id="formExplotacion" class="form-control">
 								<c:forEach begin="0" step="1" items="${explotaciones }"
 									var="item">
 									<option value=${item.getId() }>${item.getNombre() }</option>
@@ -116,7 +117,8 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label>Operario</label> <select name="operario" id="formOperario">
+							<label class="form-label">Operario</label> 
+							<select name="operario" id="formOperario" class="form-control">
 								<c:forEach begin="0" step="1" items="${Usuarios }" var="item">
 									<option value=${item.getId() }>${item.getNombre() }</option>
 								</c:forEach>
@@ -124,15 +126,15 @@
 						</div>
 
 						<div class="form-group">
-							<label>Tipo</label> <input type="text" id="formTipo">
+							<label class="form-label">Tipo</label> <input type="text" id="formTipo" class="form-control">
 						</div>
 					</form:form>
 				</div>
 				<div id="errorTarea"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" class="btn btn-danger"
 						data-dismiss="modal" id="cerrarFormTarea">Cerrar</button>
-					<button id="GuardarTarea" type="button" class="btn btn-dark">Guardar</button>
+					<button id="GuardarTarea" type="button" class="btn btn-success">Guardar</button>
 				</div>
 			</div>
 		</div>
