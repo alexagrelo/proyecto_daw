@@ -36,20 +36,7 @@ public class MainController {
 		RolesDao objRolDao = new RolesDao();
 		ArrayList<Rol> objTablaRol = objRolDao.getAll();
 		
-		if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
-			 GrantedAuthority auxRol;
-			 //Se obtiene la colección de roles del usuario
-			 Collection<? extends GrantedAuthority> objRoles = authentication.getAuthorities();
-			 //Se prepara para iterar la colección
-			 Iterator<? extends GrantedAuthority> iterator = objRoles.iterator();
-			 
-		        //Se itera recorriendo todos los roles que pudiera disponer el usuario
-		        while (iterator.hasNext()) {
-		        	auxRol = iterator.next();
-		        	Roles = Roles + auxRol.getAuthority() + ", ";
-		        } 
-		}
-		
+				
 		ExplotacionesDao objExplotacionDao = new ExplotacionesDao();
 		ArrayList<Explotacion> objExplotacion = objExplotacionDao.getAll();
 		
@@ -80,13 +67,12 @@ public class MainController {
 		ArrayList<Tarea> objTablaTarea = objTareasDao.getAll();
 		
 		String userName = authentication.getName();
-		
-		
+				
 		
 		UsuariosDao objUsuarioDao = new UsuariosDao();
 		ArrayList<Usuario> objTablaUsuario = objUsuarioDao.getAll();
 		
-		Usuario user = objUsuarioDao.getUserbyName(userName);
+		Usuario user = objUsuarioDao.getUserByMail(userName);
 		ArrayList<Tarea> objTablaTareaOperario = objTareasDao.getByOperario(user.getId());
 		
 		
@@ -114,12 +100,14 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value={"/","/nuevoUsuario"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/nuevoUsuario"}, method = RequestMethod.POST)
 	public String nuevoUsuario(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos, @RequestParam("direccion") String direccion, @RequestParam("telefono") String telefono, @RequestParam("mail") String mail, @RequestParam("nif") String nif, @RequestParam("password") String password, @RequestParam("passwordrep") String passwordrep, @RequestParam(name = "rol", defaultValue="-1" ) int rol, Model objModel) {
 		
 		String mensaje ="";
 		boolean error = false;
 		ArrayList<Integer> roles = new ArrayList<>();
+		
+		
 		
 		if(nombre != "" && password != "" && passwordrep != "" && password.equals(passwordrep)  && mail != "" && rol != -1) {
 			Usuario user = new Usuario();
@@ -193,7 +181,7 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value={"/","/eliminarUsuario"}, method = RequestMethod.POST, produces="application/json")
+	@RequestMapping(value={"/eliminarUsuario"}, method = RequestMethod.POST, produces="application/json")
 	private void eliminarUsuario(@RequestParam("eliminar") String eliminar) {
 		
 		int idUser = Integer.parseInt(eliminar);
@@ -294,14 +282,14 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value={"/","/nuevaTarea"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/nuevaTarea"}, method = RequestMethod.POST)
 	public String nuevaTarea(Authentication authentication, Model objModel, @RequestParam(name="explotacion", defaultValue="-1") int explotacion, @RequestParam(name="operario", defaultValue="-1") int operario, @RequestParam("tipo") String tipo) {
 		
 		String mensaje ="";
 		boolean error = false;
 		
 		UsuariosDao objUsuarioDao = new UsuariosDao();
-		Usuario user = objUsuarioDao.getUserbyName(authentication.getName());
+		Usuario user = objUsuarioDao.getUserByMail(authentication.getName());
 		int idUser = user.getId();
 		
 		if(operario != -1 && explotacion != -1 && tipo != "") {
@@ -343,7 +331,7 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value={"/","/eliminarTarea"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/eliminarTarea"}, method = RequestMethod.POST)
 	private void eliminarTarea(@RequestParam("eliminar") String eliminar) {
 		
 		int idTarea = Integer.parseInt(eliminar);

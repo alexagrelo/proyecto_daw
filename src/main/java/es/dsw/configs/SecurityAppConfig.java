@@ -58,7 +58,7 @@ public class SecurityAppConfig {
     	    
     	    @SuppressWarnings("deprecation")
     	    UserDetails user = User.withDefaultPasswordEncoder()
-    	    .username(usuario.getNombre())
+    	    .username(usuario.getMail())
     	    .password(usuario.getPassword())
     	    .roles(roles.toString().split(","))
     	    .build();

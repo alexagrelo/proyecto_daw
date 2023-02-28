@@ -26,8 +26,8 @@ public class UsuariosDao {
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM usuarios ORDER BY nombre DESC");
-				System.out.println("getall");
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM usuarios;");
+				System.out.println("Estoy en getAll usuarios");
 				while(Result.next()) {
 					Usuario objUsuario = new Usuario();
 					

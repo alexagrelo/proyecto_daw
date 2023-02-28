@@ -11,9 +11,8 @@
 	<meta charset="ISO-8859-1">
 	<title>Insert title here</title>
 	<link href="./bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="./js/jquery-3.6.1.min.js"></script>
-    <script src="./bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> 
-    <script src="./js/home.js"></script>
+    
+    
 </head>
 <body>
 
@@ -51,5 +50,9 @@
 	</tbody>	
 </table>
 
+
+<script src="./js/jquery-3.6.1.min.js"></script>
+    <script src="./bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> 
 </body>
+<script src="./js/home.js"></script>
 </html>

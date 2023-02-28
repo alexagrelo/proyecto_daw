@@ -26,8 +26,8 @@
 					<div class="login-form">
 						<form:form action="./loginprocess" method="POST">
 							<div class="form-group">
-								<label class="font-weight-bold">Nombre de usuario</label> <input type="text"
-									class="form-control" placeholder="User Name" name="username">
+								<label class="font-weight-bold">Correo electrónico</label> <input type="text"
+									class="form-control" placeholder="Mail" name="username">
 							</div>
 							<div class="form-group">
 								<label class="font-weight-bold">Contraseña</label> <input type="password"

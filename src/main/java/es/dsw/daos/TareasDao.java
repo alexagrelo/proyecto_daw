@@ -29,7 +29,7 @@ public class TareasDao {
 			objConnection.open();
 			if(!objConnection.isError()) {				
 				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas ORDER BY id DESC");
-				System.out.println("getall");
+				System.out.println("getall de tareas");
 				while(Result.next()) {
 					Tarea objTarea = new Tarea();
 					
@@ -78,7 +78,7 @@ public ArrayList<Tarea> getByOperario(int idOperario){
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {				
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas WHERE id_operario_asignado = " + idOperario);
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM tareas WHERE id_operario_asignado = " + idOperario + "ORDER BY id DESC");
 				System.out.println("getall");
 				while(Result.next()) {
 					Tarea objTarea = new Tarea();
