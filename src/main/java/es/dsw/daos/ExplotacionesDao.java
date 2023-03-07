@@ -68,7 +68,7 @@ public class ExplotacionesDao {
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM variedades WHERE id = " + id);
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM explotaciones WHERE id = " + id);
 				while(Result.next()) {
 					objExplotacion = new Explotacion();
 					objExplotacion.setId(Result.getInt("ID"));
@@ -106,7 +106,7 @@ public class ExplotacionesDao {
 		try {
 			objConnection.open();
 			if(!objConnection.isError()) {
-				ResultSet Result = objConnection.executeSelect("SELECT * FROM variedades WHERE nombre = " + nameExplotacion);
+				ResultSet Result = objConnection.executeSelect("SELECT * FROM explotaciones WHERE nombre = '" + nameExplotacion + "'");
 				while(Result.next()) {
 					objExplotacion = new Explotacion();
 					objExplotacion.setId(Result.getInt("ID"));

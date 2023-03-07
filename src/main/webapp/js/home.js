@@ -34,6 +34,8 @@ $(document).ready(function(e){
 		var data_passwordrep = $("#formPasswordRep").val();
 		var data_rol = $("#formRol").val();
 		
+	
+		
 		
 		$("#errorUsuario").html("");
 		$("#mensajeUpdate").html("");
@@ -156,7 +158,7 @@ $("body").on("click", "#GuardarTarea", function(e){
 		
 		
 		$("#errorTarea").html("");
-		$("#mensajeUpdate").html("");
+		//$("#mensajeUpdate").html("");
 		
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
@@ -217,7 +219,7 @@ $('body').on('click', ".eliminarTarea", function(e){
 
 	
 	
-	$('body').on('click','.editarTarea', function(e){
+	 $('body').on('click','.editarTarea', function(e){
 		
 
 		e.preventDefault();
@@ -232,16 +234,19 @@ $('body').on('click', ".eliminarTarea", function(e){
 		
 		$("#mensajeUpdate").html("");
 		
+		console.log(data_explotacion);
+		
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
 		
 		$.ajax({
+			
 			url: "./updateTarea",
-			mehtod: "POST",
+			method: "POST",
 			data: {id: data_id, usuarioCrea: data_usuarioCrea, explotacion: data_explotacion, operario: data_operario, status: data_status, tipo: data_tipo},
 			beforeSend: request => request.setRequestHeader(header,token),
 			success: function(resultText){
-				console.log(data_status);
+				console.log(4);
 				$("#mensajeUpdate").html(resultText);
 				if(data_usuarioCrea != "" && data_explotacion != "" && data_operario != "" && data_status != "" && data_tipo != "" ){
 					setTimeout(() => {
@@ -255,6 +260,8 @@ $('body').on('click', ".eliminarTarea", function(e){
 			}
 		})
 	})
+	
+
 	
 
 })

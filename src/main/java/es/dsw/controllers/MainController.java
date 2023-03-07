@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -118,7 +119,7 @@ public class MainController {
 		
 		Matcher matcher = pattern.matcher(mail);
 		
-		System.out.println("patron de mail" + matcher.find());*/
+		*/
 		
 		
 		
@@ -224,7 +225,7 @@ public class MainController {
 			rol = rol.substring(1,rol.length()-1).toLowerCase();
 		}
 		
-		System.out.println(rol);
+		
 		
 		String mensaje="";
 		boolean error = false;
@@ -376,22 +377,19 @@ public class MainController {
 	private void eliminarTarea(@RequestParam("eliminar") String eliminar) {
 		
 		int idTarea = Integer.parseInt(eliminar);
-		System.out.println(idTarea);
 		
 		TareasDao objTareaDao = new TareasDao();
 		objTareaDao.deleteById(idTarea);
 	}
 	
 	
-	@RequestMapping(value= {"/updateTarea"}, method = RequestMethod.POST)
+	@PostMapping(value= {"/updateTarea"})
 	private String updateTarea(@RequestParam("id") String id,@RequestParam("usuarioCrea") String usuarioCrea, @RequestParam("explotacion") String explotacion, @RequestParam("operario") String operario, @RequestParam("status") String status, @RequestParam("tipo") String tipo, Model objModel) {
 		
 		int idTarea = Integer.parseInt(id);
 				
 		String mensaje="";
 		boolean error = false;		
-		
-
 		
 		if(usuarioCrea != "" && explotacion != "" && operario != "" && status != "" && tipo != "") {
 			
@@ -402,19 +400,19 @@ public class MainController {
 			UsuariosDao objUsuarioDao = new UsuariosDao();			
 			Usuario objUsuarioCrea = objUsuarioDao.getUserbyName(usuarioCrea);
 			objTarea.setIdUsuarioCrea(objUsuarioCrea.getId());
-			System.out.println("id usuario crea tarea" + objUsuarioCrea.getId());
 			
 			ExplotacionesDao objExplotacionDao = new ExplotacionesDao();
 			Explotacion objExplotacion = objExplotacionDao.getExplotacionByName(explotacion);
 			objTarea.setIdExplotacion(objExplotacion.getId());
-			System.out.println("id usuario explotacion tarea" + objExplotacion.getId());
 			
 			Usuario objUsuarioOperario = objUsuarioDao.getUserbyName(operario);
 			objTarea.setIdOperario(objUsuarioOperario.getId());
-			System.out.println("id operario tarea" + objUsuarioOperario.getId());
 			
 			objTarea.setStatus(status);
 			objTarea.setTipo(tipo);
+			
+			TareasDao objTareaDao = new TareasDao();
+			objTareaDao.updateTarea(objTarea);
 			
 			
 			mensaje = mensaje + "La tarea ha sido modificado correctamente";

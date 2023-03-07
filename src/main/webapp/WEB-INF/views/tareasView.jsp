@@ -24,7 +24,7 @@
 		<tr>
 			<th>ID</th>
 			<th>UsuarioCrea</th>
-			<th>Variedad</th>
+			<th>Explotación</th>
 			<th>Operario</th>
 			<th>Status</th>
 			<th>Tipo</th>
@@ -34,7 +34,7 @@
 		<c:forEach begin="0" step ="1" items="${Tareas}" var="item">
 			<tr>
 				<td class="updtIdTarea" contenteditable=true>${item.getId() }</td>
-				<td class="updtUsuarioTarea" contenteditable=true>${item.getUsuarioCrea() }</td>
+				<td class="updtUsuarioCreaTarea" contenteditable=true>${item.getUsuarioCrea() }</td>
 				<td class="updtExplotacionTarea" contenteditable=true>${item.getExplotacion() }</td>
 				<td  contenteditable=true>
 					<select class="updtOperarioTarea">
@@ -51,7 +51,7 @@
 						<option value="Realizada">Realizada</option>
 					</select>
 				</td>
-				<td class="updtTitem2.getNombre()ipoTarea" contenteditable=true>${item.getTipo() }</td>
+				<td class="updtTipoTarea" contenteditable=true>${item.getTipo() }</td>
 				
 				<td><form:form> <input type="button" class="editarTarea btn btn-primary"  value="Editar"/></form:form> </td>
 				<td><form:form> <input type="button" class="eliminarTarea btn btn-danger" data="${item.getId()}" value="Eliminar"/></form:form> </td>
