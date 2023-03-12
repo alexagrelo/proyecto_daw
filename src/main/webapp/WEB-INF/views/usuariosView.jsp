@@ -40,7 +40,7 @@
 				<td class="updtNif" contenteditable=true>${item.getNif() }</td>
 				<td  contenteditable=true>
 					<select class="updtRol">
-						<option value=${ item.getRol() } >${item.getRol() }</option>
+						<option value=${ item.getRol() } >${item.getRol()[0] }</option>
 						<c:forEach begin="0" step="1" items="${Roles }" var="item2">
 							<option value=${ item2.getNombre() }>${item2.getNombre() }</option>
 						</c:forEach>

@@ -22,6 +22,7 @@
 		<a href="./"
 			class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 			<span class="sidenav-title">BioFruit</span>
+			<!-- <img alt="Logo de BioFruit" src="./img/logo_biofruit.png"> -->
 		</a>
 		<hr>
 		<ul class="nav nav-pills flex-column mb-auto">

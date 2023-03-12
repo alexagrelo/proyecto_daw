@@ -1,5 +1,4 @@
 $(document).ready(function(e){
-	
 
  $('body').on('click', '#btnListarUsuarios', function(e){
 	e.preventDefault();

@@ -6,4 +6,10 @@ html, body {
 .sidenav {
 	width: 100%;
 	height: 100%;
+	/* background-color: #14803A; */
+}
+
+.sidenav a {
+	object-fit:contain;
+	width:100%;
 }

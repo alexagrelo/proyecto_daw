@@ -27,11 +27,11 @@
 						<form:form action="./loginprocess" method="POST">
 							<div class="form-group">
 								<label class="font-weight-bold">Correo electrónico</label> <input type="text"
-									class="form-control" placeholder="Mail" name="username">
+									class="form-control" placeholder="Introduzca su email" name="username">
 							</div>
 							<div class="form-group">
 								<label class="font-weight-bold">Contraseña</label> <input type="password"
-									class="form-control" placeholder="Password" name="password">
+									class="form-control" placeholder="Introduzca su contraseña" name="password">
 							</div>
 							<button type="submit" class="btn btn-dark text-white">Acceder</button>
 							<!-- <a href="#" class="btn btn-secondary">Ayuda</a> -->
